@@ -9,33 +9,44 @@
 function zencoder_new_job($id_document){
   include_spip('lib/zencoder_api_2.2.3/Services/Zencoder');
   include_spip('inc/config');
+  include_spip('inc/utils');
   
   $api_key=lire_config('zencoder/api_key');
-  $document = sql_getfetsel('fichier','spip_documents','id_document=' . $id_document);
+  $document =  generer_url_entite_absolue($id_document,'document');
+  $url_notification =  generer_url_action( 'zencoder_notification','id_document=' . $id_document, false, false );
   $encoding_job = new ZencoderJob('
    {
-     "api_key": "$api_key",
-     "input": "s3://bucket-name/file-name.avi",
+     "api_key": "' . $api_key . '",
+     "input": ' . $document . ',
      "outputs": [
      {
         "label": "mp4 high",
-        // Change this to your server: "url": "s3://output-bucket/output-file-name.mp4",
-        "h264_profile": "high"
+        "h264_profile": "high",
+        "notifications":[
+      {"format": "json", "url": "' .$url_notification . '"}
+     ]
+   }
       },
       {
-        // Change this to your server: "url": "s3://output-bucket/output-file-name.webm",
         "label": "webm",
-        "format": "webm"
+        "format": "webm",
+        "notifications":[
+      {"format": "json", "url": "' .$url_notification . '"}
+     ]
       },
       {
-        // Change this to your server: "url": "s3://output-bucket/output-file-name.ogg",
         "label": "ogg",
-        "format": "ogg"
+        "format": "ogg",
+        "notifications":[
+      {"format": "json", "url": "' .$url_notification . '"}
+     ]
       },
       {
-        // Change this to your server: "url": "s3://output-bucket/output-file-name-mobile.mp4",
         "label": "mp4 low",
-        "size": "640x480"
+        "size": "640x480",
+        "notifications":[
+      {"format": "json", "url": "' .$url_notification . '"}
+     ]
       }
     ]
    }
