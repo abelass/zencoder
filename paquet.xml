@@ -7,20 +7,14 @@
   logo="prive/themes/spip/images/zencoder-64.png"
   documentation=""
 >
-  <!--
-    Paquet genere le 2015-11-10 17:38:51
-    (Vous pouvez bien entendu supprimer ces commentaires) 
-  -->
 
   <nom>Zencoder</nom>
 
-  <!-- cette balise peut etre presente plusieurs fois s'il y a plusieurs auteurs --> 
   <auteur lien='http://websimple.be'>Rainer Müller</auteur>
 
   <licence>GNU/GPL</licence>
   
-  <lib nom="Zencoder API" lien="https://github.com/zencoder/zencoder-php/archive/v2.2.3.zip" />
-  <necessite nom="facd" compatibilite="[0.4.2;]" />
+  <lib nom="zencoder_api_2.2.3" lien="https://github.com/zencoder/zencoder-php/archive/v2.2.3.zip" />
 
   <!--
     Exemple de commandes
