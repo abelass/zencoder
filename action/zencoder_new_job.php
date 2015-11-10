@@ -7,14 +7,78 @@
  * @param int $id_objet
  */
 function zencoder_new_job($id_document){
-  include_spip('lib/zencoder_api_2.2.3/Services/Zencoder');
+  $cwd = getcwd();
+  chdir(realpath(_DIR_ZENCODER_LIB));
+  require_once "Services/Zencoder.php";
+  chdir($cwd);
   include_spip('inc/config');
   include_spip('inc/utils');
-  
   $api_key=lire_config('zencoder/api_key');
   $document =  generer_url_entite_absolue($id_document,'document');
   $url_notification =  generer_url_action( 'zencoder_notification','id_document=' . $id_document, false, false );
-  $encoding_job = new ZencoderJob('
+  try {
+  // Initialize the Services_Zencoder class
+  $zencoder = new Services_Zencoder($api_key);
+
+  // New Encoding Job
+  $encoding_job = $zencoder->jobs->create(
+    array(
+      "input" => $document,
+      "outputs" => array(
+        array(
+          "label" => "mp4 high",
+          "h264_profile" =>"high",
+          "notifications" => array(
+          "format" =>"json", 
+          "url" =>$url_notification
+          )
+        ),
+        array(
+          "label" => "webm",
+          "format" =>"webm",
+          "notifications" => array(
+          "format" =>"json", 
+          "url" =>$url_notification
+          )
+        ),
+         array(
+          "label" => "ogg",
+          "format" =>"ogg",
+          "notifications" => array(
+          "format" =>"json", 
+          "url" =>$url_notification
+          )
+        ),
+         array(
+          "label" => "mp4 low",
+          "size" =>"640x480",
+          "notifications" => array(
+          "format" =>"json", 
+          "url" =>$url_notification
+          )
+        ),        
+      )
+    )
+  );
+
+  // Success if we got here
+  echo "w00t! \n\n";
+  echo "Job ID: ".$encoding_job->id."\n";
+  echo "Output ID: ".$encoding_job->outputs['web']->id."\n";
+  // Store Job/Output IDs to update their status when notified or to check their progress.
+} catch (Services_Zencoder_Exception $e) {
+  // If were here, an error occured
+  echo "Fail :(\n\n";
+  echo "Errors:\n";
+  foreach ($e->getErrors() as $error) echo $error."\n";
+  echo "Full exception dump:\n\n";
+  print_r($e);
+}
+
+echo "\nAll Job Attributes:\n";
+var_dump($encoding_job);
+  
+  /*$encoding_job = new Services_Zencoder('
    {
      "api_key": "' . $api_key . '",
      "input": ' . $document . ',
@@ -61,6 +125,6 @@ function zencoder_new_job($id_document){
         $erreurs[] =$error;
      }
    spip_log('zencoder','encoding_job_fail' . var_dump($erreurs));
-}
+}*/
   return;
 }

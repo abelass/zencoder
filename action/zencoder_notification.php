@@ -7,9 +7,15 @@
  * @param int $id_objet
  */
 function zencoder_notification($id_document){
-  include_spip('lib/zencoder_api_2.2.3/Services/Zencoder');
+  $cwd = getcwd();
+  chdir(realpath(_DIR_ZENCODER_LIB));
+  require_once "Services/Zencoder.php";
+  chdir($cwd);
+  include_spip('inc/config');
+  
   $api_key=lire_config('zencoder/api_key');
   
+
   // Initialize the Services_Zencoder class
   $zencoder = new Services_Zencoder($api_key);
   
@@ -18,17 +24,18 @@ function zencoder_notification($id_document){
   
   // Check output/job state
   if($notification->job->outputs[0]->state == "finished") {
-    spip_logo('zencode',$notification);
+    spip_log('zencode',$notification);
   
     // If you're encoding to multiple outputs and only care when all of the outputs are finished
     // you can check if the entire job is finished.
     if($notification->job->state == "finished") {
-      
+     spip_log('zencode',$notification);
     }
   } elseif ($notification->job->outputs[0]->state == "cancelled") {
-    spip_logo('zencode',$notification);
+    spip_log('zencode',$notification);
   } else {
-    spip_logo('zencode',$notification);
+    spip_log('zencode',$notification);
   }
+
   return;
 }
