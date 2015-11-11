@@ -7,6 +7,7 @@
  * @param int $id_objet
  */
 function zencoder_new_job($id_document){
+  spip_log('start zencoder_new_job','zencoder');
   $cwd = getcwd();
   chdir(realpath(_DIR_ZENCODER_LIB));
   require_once "Services/Zencoder.php";
@@ -15,7 +16,7 @@ function zencoder_new_job($id_document){
   include_spip('inc/utils');
   $api_key=lire_config('zencoder/api_key');
   $document =  generer_url_entite_absolue($id_document,'document');
-  $url_notification =  generer_url_action( 'zencoder_notification','id_document=' . $id_document, false, false );
+  $url_notification =  generer_url_action( 'zencoder_notification','id_document=' . $id_document, true, false );
   try {
   // Initialize the Services_Zencoder class
   $zencoder = new Services_Zencoder($api_key);
