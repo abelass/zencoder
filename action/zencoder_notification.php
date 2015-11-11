@@ -6,7 +6,8 @@
  * @param string $objet
  * @param int $id_objet
  */
-function zencoder_notification($id_document){
+function action_zencoder_notification(){
+  $id_document = _request(id_document);
   $cwd = getcwd();
   chdir(realpath(_DIR_ZENCODER_LIB));
   require_once "Services/Zencoder.php";
