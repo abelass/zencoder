@@ -17,6 +17,7 @@ function zencoder_new_job($id_document){
   $api_key=lire_config('zencoder/api_key');
   $document =  generer_url_entite_absolue($id_document,'document');
   $url_notification =  generer_url_action( 'zencoder_notification','id_document=' . $id_document, true, false );
+  $clip_length = '1';
   try {
   // Initialize the Services_Zencoder class
   $zencoder = new Services_Zencoder($api_key);
@@ -27,27 +28,23 @@ function zencoder_new_job($id_document){
       "input" => $document,
       "outputs" => array(
         array(
-          "label" => "mp4 high",
-          "h264_profile" =>"high",
-          "notifications" => array(
-          "format" =>"json", 
-          "url" =>$url_notification
-          )
-        ),
-        array(
           "label" => "webm",
+          "size" =>"640x480",
           "format" =>"webm",
           "notifications" => array(
           "format" =>"json", 
-          "url" =>$url_notification
+          "url" =>$url_notification,
+          "clip_length" =>$clip_length,
           )
         ),
          array(
           "label" => "ogg",
           "format" =>"ogg",
+          "size" =>"640x480",
           "notifications" => array(
           "format" =>"json", 
-          "url" =>$url_notification
+          "url" =>$url_notification,
+          "clip_length" =>$clip_length,
           )
         ),
          array(
@@ -55,7 +52,8 @@ function zencoder_new_job($id_document){
           "size" =>"640x480",
           "notifications" => array(
           "format" =>"json", 
-          "url" =>$url_notification
+          "url" =>$url_notification,
+          "clip_length" =>$clip_length,
           )
         ),        
       )
@@ -75,5 +73,53 @@ echo "\nAll Job Attributes:\n";
 
   //spip_log('zencoder','error:' . var_dump($encoding_job));		   
   
+  /*$encoding_job = new Services_Zencoder('
+   {
+     "api_key": "' . $api_key . '",
+     "input": ' . $document . ',
+     "outputs": [
+     {
+        "label": "mp4 high",
+        "h264_profile": "high",
+        "notifications":[
+      {"format": "json", "url": "' .$url_notification . '"}
+     ]
+   }
+      },
+      {
+        "label": "webm",
+        "format": "webm",
+        "notifications":[
+      {"format": "json", "url": "' .$url_notification . '"}
+     ]
+      },
+      {
+        "label": "ogg",
+        "format": "ogg",
+        "notifications":[
+      {"format": "json", "url": "' .$url_notification . '"}
+     ]
+      },
+      {
+        "label": "mp4 low",
+        "size": "640x480",
+        "notifications":[
+      {"format": "json", "url": "' .$url_notification . '"}
+     ]
+      }
+    ]
+   }
+  ');
+  
+  if ($encoding_job->created) {
+      spip_log('zencoder','encoding_job_success' . $encoding_job->outputs["web"]->label  . ' ID: '.$encoding_job->outputs["web"]->id);
+
+ } else {
+       $erreurs=array();
+       foreach($encoding_job->errors as $error) {
+        $erreurs[] =$error;
+     }
+   spip_log('zencoder','encoding_job_fail' . var_dump($erreurs));
+}*/
   return;
 }
