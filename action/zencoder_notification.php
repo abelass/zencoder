@@ -24,17 +24,17 @@ function zencoder_notification($id_document){
   
   // Check output/job state
   if($notification->job->outputs[0]->state == "finished") {
-    spip_log('zencode',$notification);
+    spip_log($notification,'zencoder');
   
     // If you're encoding to multiple outputs and only care when all of the outputs are finished
     // you can check if the entire job is finished.
     if($notification->job->state == "finished") {
-     spip_log('zencode',$notification);
+     spip_log($notification,'zencoder');
     }
   } elseif ($notification->job->outputs[0]->state == "cancelled") {
-    spip_log('zencode',$notification);
+    spip_log($notification,'zencoder');
   } else {
-    spip_log('zencode',$notification);
+    spip_log($notification,'zencoder');
   }
 
   return;
