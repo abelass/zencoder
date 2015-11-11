@@ -62,21 +62,17 @@ function zencoder_new_job($id_document){
   );
 
   // Success if we got here
-  echo "w00t! \n\n";
-  echo "Job ID: ".$encoding_job->id."\n";
-  echo "Output ID: ".$encoding_job->outputs['web']->id."\n";
-  // Store Job/Output IDs to update their status when notified or to check their progress.
+	spip_log('success- Job ID:' .$encoding_job->id. ' Output ID:' .$encoding_job->outputs['web']->id,'zencoder');
+
 } catch (Services_Zencoder_Exception $e) {
   // If were here, an error occured
-  echo "Fail :(\n\n";
-  echo "Errors:\n";
-  foreach ($e->getErrors() as $error) echo $error."\n";
-  echo "Full exception dump:\n\n";
-  print_r($e);
+
+  spip_log('error:' . print_r($e),'zencoder');
 }
 
 echo "\nAll Job Attributes:\n";
-var_dump($encoding_job);
+
+  //spip_log('zencoder','error:' . var_dump($encoding_job));		   
   
   /*$encoding_job = new Services_Zencoder('
    {
