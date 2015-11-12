@@ -17,7 +17,7 @@ function zencoder_new_job($id_document){
   $api_key=lire_config('zencoder/api_key');
   $document =  generer_url_entite_absolue($id_document,'document');
   $url_notification =  generer_url_action( 'zencoder_notification','id_document=' . $id_document, true, false );
-  $clip_length = '1';
+  $clip_length = '10';
   try {
   // Initialize the Services_Zencoder class
   $zencoder = new Services_Zencoder($api_key);
