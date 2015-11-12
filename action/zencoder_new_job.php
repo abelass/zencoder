@@ -1,9 +1,8 @@
 <?php
 /**
- * Fonction d'ajout des versions dans la file d'attente
+ * Envoi une requette de conversion a zencoder.
  *
  * @param int $id_document l'id du document original
- * @param string $objet
  * @param int $id_objet
  */
 function zencoder_new_job($id_document){
