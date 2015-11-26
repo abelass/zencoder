@@ -2,7 +2,7 @@
   prefix="zencoder"
   categorie="multimedia"
   version="1.0.0"
-  etat="dev"
+  etat="test"
   compatibilite="[3.0.21;3.0.*]"
   logo="prive/themes/spip/images/zencoder-64.png"
   documentation=""
