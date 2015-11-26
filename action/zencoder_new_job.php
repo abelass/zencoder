@@ -1,4 +1,7 @@
 <?php
+
+if (!defined('_ECRIRE_INC_VERSION')) return;
+
 /**
  * Envoi une requette de conversion a zencoder.
  *
@@ -31,7 +34,7 @@ function zencoder_new_job($id_document){
           "size" =>"640x480",
           "format" =>"webm",
           "notifications" => array(
-          "format" =>"json", 
+          "format" =>"json",
           "url" =>$url_notification,
           "clip_length" =>$clip_length,
           )
@@ -41,7 +44,7 @@ function zencoder_new_job($id_document){
           "format" =>"ogg",
           "size" =>"640x480",
           "notifications" => array(
-          "format" =>"json", 
+          "format" =>"json",
           "url" =>$url_notification,
           "clip_length" =>$clip_length,
           )
@@ -50,11 +53,11 @@ function zencoder_new_job($id_document){
           "label" => "mp4 low",
           "size" =>"640x480",
           "notifications" => array(
-          "format" =>"json", 
+          "format" =>"json",
           "url" =>$url_notification,
           "clip_length" =>$clip_length,
           )
-        ),        
+        ),
       )
     )
   );

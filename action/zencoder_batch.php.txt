@@ -1,4 +1,7 @@
 <?php
+
+if (!defined('_ECRIRE_INC_VERSION')) return;
+
 /**
  * Fonction d'ajout des versions dans la file d'attente
  *
@@ -9,7 +12,7 @@
 function action_zencoder_batch(){
   include_spip('action/zencoder_new_job');
   $documents = sql_select('id_document','spip_documents','mode="document" AND media="video"');
-      
+
     $id_document = $flux['data']['ids'][0];
 
     //Convert the video with zencoder
@@ -20,7 +23,7 @@ function action_zencoder_batch(){
           print '<div>' . $id_document . '</div>';
           zencoder_new_job($id_document);
     }
-    
+
   }
 
   return;
